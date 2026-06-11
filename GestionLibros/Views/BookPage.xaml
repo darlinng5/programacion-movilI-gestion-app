@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:GestionLibros.ViewModels"
              x:Class="GestionLibros.Views.BookPage"
              Title="Books">
-    <ContentPage.BindingContext>
-        <viewModels:BookViewModel/>
-    </ContentPage.BindingContext>
 
     <Grid Padding="20" RowDefinitions="Auto,*"  RowSpacing="16">
         <VerticalStackLayout Grid.Row="0" Spacing="12">
