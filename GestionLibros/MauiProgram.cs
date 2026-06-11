@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GestionLibros.Data;
+using GestionLibros.ViewModels;
+using GestionLibros.Views;
+using Microsoft.Extensions.Logging;
 
 namespace GestionLibros
 {
@@ -18,7 +21,9 @@ namespace GestionLibros
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-
+            builder.Services.AddSingleton<AppDatabase>();
+            builder.Services.AddTransient<BookViewModel>();
+            builder.Services.AddTransient<BookPage>();
             return builder.Build();
         }
     }
