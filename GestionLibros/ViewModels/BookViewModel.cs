@@ -52,57 +52,45 @@ namespace GestionLibros.ViewModels
         [ObservableProperty]
         private ReadingStatus selectedStatus = ReadingStatus.PorLeer;
 
+        [ObservableProperty]
+        private bool isEditing;
+
         [RelayCommand]
         private async Task Save()
         {
-            Book book = new Book();
-            book.Name = Name;
-            book.Author = Author;
-            book.Description = Description;
-            book.CategoryId = SelectedCategory?.Id ?? 0;
-            book.Status = SelectedStatus;
-            book.Rating = Rating;
-            await database.SaveBookAsync(book);
-
-            await LoadBooks();
-
-            ClearForm();
-        }
-        [RelayCommand]
-        private async Task Update() {
-
-            if (SelectedBook == null)
+            if (SelectedBook.Id == 0)
             {
-                return;
+                Book book = new Book();
+                book.Name = Name;
+                book.Author = Author;
+                book.Description = Description;
+                book.CategoryId = SelectedCategory?.Id ?? 0;
+                book.Status = SelectedStatus;
+                book.Rating = Rating;
+                await database.SaveBookAsync(book);
+            }
+            else
+            {
+                SelectedBook.Name = Name;
+                SelectedBook.Author = Author;
+                SelectedBook.Description = Description;
+                SelectedBook.CategoryId = SelectedCategory?.Id ?? 0;
+                SelectedBook.Status = SelectedStatus;
+                SelectedBook.Rating = Rating;
+                await database.UpdateBookAsync(SelectedBook);
             }
 
-            SelectedBook.Name = Name;
-            SelectedBook.Author = Author;
-            SelectedBook.Description = Description;
-            SelectedBook.CategoryId = SelectedCategory?.Id ?? 0;
-            SelectedBook.Status = SelectedStatus;
-            SelectedBook.Rating = Rating;
-
-            await database.UpdateBookAsync(SelectedBook);
-
             await LoadBooks();
 
             ClearForm();
         }
 
         [RelayCommand]
-        private async Task Delete()
+        private async Task DeleteBook(Book book)
         {
-            if (SelectedBook == null)
-            {
-                return;
-            }
-
-            await database.DeleteBookAsync(SelectedBook);
+            await database.DeleteBookAsync(book);
 
             await LoadBooks();
-
-            ClearForm();
         }
 
         [RelayCommand]
@@ -162,6 +150,7 @@ namespace GestionLibros.ViewModels
             SelectedCategory = Categories.FirstOrDefault(c => c.Id == value.CategoryId);
             SelectedStatus = value.Status;
             Rating = value.Rating;
+            IsEditing = value.Id != 0;
         }
     }
 }

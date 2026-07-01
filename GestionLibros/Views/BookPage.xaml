@@ -13,77 +13,18 @@
     </ContentPage.Resources>
 
     <Grid RowDefinitions="Auto,*">
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="20,16,20,8" Spacing="14">
-                <Label Text="Mi Biblioteca" Style="{StaticResource PageTitle}"/>
-                <Label Text="{Binding Books.Count, StringFormat='{0} libro(s) en tu colección'}"
-                       Style="{StaticResource PageSubtitle}"/>
+        <VerticalStackLayout Grid.Row="0" Padding="20,16,20,8" Spacing="14">
+            <Label Text="Mi Biblioteca" Style="{StaticResource PageTitle}"/>
+            <Label Text="{Binding Books.Count, StringFormat='{0} libro(s) en tu colección'}"
+                   Style="{StaticResource PageSubtitle}"/>
 
-                <SearchBar Placeholder="Buscar por nombre o autor"
-                           Text="{Binding SearchText}" />
+            <SearchBar Placeholder="Buscar por nombre o autor"
+                       Text="{Binding SearchText}" />
 
-                <Border Style="{StaticResource CardBorder}">
-                    <VerticalStackLayout Spacing="10">
-                        <Label Text="Nuevo libro / Editar" Style="{StaticResource SectionTitle}" Margin="0"/>
+            <Button Text="＋ Nuevo libro" Clicked="OnNewBookClicked" />
+        </VerticalStackLayout>
 
-                        <Label Text="Nombre" Style="{StaticResource FieldLabel}"/>
-                        <Entry Text="{Binding Name}" Placeholder="Ej. Cien años de soledad" />
-
-                        <Label Text="Autor" Style="{StaticResource FieldLabel}"/>
-                        <Entry Text="{Binding Author}" Placeholder="Ej. Gabriel García Márquez" />
-
-                        <Label Text="Descripción" Style="{StaticResource FieldLabel}"/>
-                        <Editor Text="{Binding Description}"
-                                Placeholder="Breve sinopsis del libro..."
-                                AutoSize="TextChanges"
-                                HeightRequest="80" />
-
-                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                            <VerticalStackLayout Grid.Column="0" Spacing="6">
-                                <Label Text="Categoría" Style="{StaticResource FieldLabel}"/>
-                                <Picker ItemsSource="{Binding Categories}"
-                                        ItemDisplayBinding="{Binding Name}"
-                                        SelectedItem="{Binding SelectedCategory}"
-                                        Title="Selecciona" />
-                            </VerticalStackLayout>
-                            <VerticalStackLayout Grid.Column="1" Spacing="6">
-                                <Label Text="Estado" Style="{StaticResource FieldLabel}"/>
-                                <Picker ItemsSource="{Binding Statuses}"
-                                        SelectedItem="{Binding SelectedStatus}">
-                                    <Picker.ItemDisplayBinding>
-                                        <Binding Path="." Converter="{StaticResource ReadingStatusToLabelConverter}" />
-                                    </Picker.ItemDisplayBinding>
-                                </Picker>
-                            </VerticalStackLayout>
-                        </Grid>
-
-                        <Label Text="Calificación" Style="{StaticResource FieldLabel}"/>
-                        <Grid ColumnDefinitions="*,Auto">
-                            <Stepper Grid.Column="0" Minimum="0" Maximum="5" Increment="1"
-                                     Value="{Binding Rating}" HorizontalOptions="Start" />
-                            <Label Grid.Column="1"
-                                   Text="{Binding Rating, Converter={StaticResource RatingToStarsConverter}}"
-                                   TextColor="{StaticResource Warning}"
-                                   FontSize="18" VerticalOptions="Center" />
-                        </Grid>
-
-                        <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="8" Margin="0,8,0,0">
-                            <Button Grid.Column="0" Text="Guardar" Command="{Binding SaveCommand}" />
-                            <Button Grid.Column="1" Text="Actualizar" Style="{StaticResource OutlineButton}"
-                                    Command="{Binding UpdateCommand}" />
-                            <Button Grid.Column="2" Text="Eliminar" Style="{StaticResource DangerButton}"
-                                    Command="{Binding DeleteCommand}" />
-                            <Button Grid.Column="3" Text="Cancelar" Style="{StaticResource OutlineButton}"
-                                    Command="{Binding ClearFormCommand}" />
-                        </Grid>
-                    </VerticalStackLayout>
-                </Border>
-
-                <Label Text="Libros" Style="{StaticResource SectionTitle}"/>
-            </VerticalStackLayout>
-        </ScrollView>
-
-        <CollectionView SelectedItem="{Binding SelectedBook}" SelectionMode="Single"
+        <CollectionView SelectionMode="None"
                         Grid.Row="1" ItemsSource="{Binding Books}"
                         Margin="20,0,20,20">
             <CollectionView.EmptyView>
@@ -117,6 +58,12 @@
                                            Text="{Binding Status, Converter={StaticResource ReadingStatusToLabelConverter}}"/>
                                 </Border>
                             </HorizontalStackLayout>
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,8,0,0">
+                                <Button Grid.Column="0" Text="✏️ Editar" Style="{StaticResource OutlineButton}"
+                                        CommandParameter="{Binding .}" Clicked="OnEditClicked" />
+                                <Button Grid.Column="1" Text="🗑️ Eliminar" Style="{StaticResource DangerButton}"
+                                        CommandParameter="{Binding .}" Clicked="OnDeleteClicked" />
+                            </Grid>
                         </VerticalStackLayout>
                     </Border>
                 </DataTemplate>

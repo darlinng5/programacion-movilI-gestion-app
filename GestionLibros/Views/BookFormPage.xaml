@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:GestionLibros.Converters"
+             x:Class="GestionLibros.Views.BookFormPage">
+
+    <ContentPage.Resources>
+        <converters:RatingToStarsConverter x:Key="RatingToStarsConverter" />
+        <converters:ReadingStatusToLabelConverter x:Key="ReadingStatusToLabelConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20,16" Spacing="10">
+            <Label Text="Nombre" Style="{StaticResource FieldLabel}"/>
+            <Entry Text="{Binding Name}" Placeholder="Ej. Cien años de soledad" />
+
+            <Label Text="Autor" Style="{StaticResource FieldLabel}"/>
+            <Entry Text="{Binding Author}" Placeholder="Ej. Gabriel García Márquez" />
+
+            <Label Text="Descripción" Style="{StaticResource FieldLabel}"/>
+            <Editor Text="{Binding Description}"
+                    Placeholder="Breve sinopsis del libro..."
+                    AutoSize="TextChanges"
+                    HeightRequest="80" />
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" Spacing="6">
+                    <Label Text="Categoría" Style="{StaticResource FieldLabel}"/>
+                    <Picker ItemsSource="{Binding Categories}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding SelectedCategory}"
+                            Title="Selecciona" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="6">
+                    <Label Text="Estado" Style="{StaticResource FieldLabel}"/>
+                    <Picker ItemsSource="{Binding Statuses}"
+                            SelectedItem="{Binding SelectedStatus}">
+                        <Picker.ItemDisplayBinding>
+                            <Binding Path="." Converter="{StaticResource ReadingStatusToLabelConverter}" />
+                        </Picker.ItemDisplayBinding>
+                    </Picker>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Label Text="Calificación" Style="{StaticResource FieldLabel}"/>
+            <Grid ColumnDefinitions="*,Auto">
+                <Stepper Grid.Column="0" Minimum="0" Maximum="5" Increment="1"
+                         Value="{Binding Rating}" HorizontalOptions="Start" />
+                <Label Grid.Column="1"
+                       Text="{Binding Rating, Converter={StaticResource RatingToStarsConverter}}"
+                       TextColor="{StaticResource Warning}"
+                       FontSize="18" VerticalOptions="Center" />
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,16,0,0">
+                <Button Grid.Column="0" Text="Guardar" Clicked="OnSaveClicked" />
+                <Button Grid.Column="1" Text="Cancelar" Style="{StaticResource OutlineButton}"
+                        Clicked="OnCancelClicked" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
