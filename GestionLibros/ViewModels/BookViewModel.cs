@@ -66,12 +66,7 @@ namespace GestionLibros.ViewModels
 
             await LoadBooks();
 
-            Name = string.Empty;
-            Author = string.Empty;
-            Description = string.Empty;
-            SelectedCategory = null;
-            SelectedStatus = ReadingStatus.PorLeer;
-            Rating = 0;
+            ClearForm();
         }
         [RelayCommand]
         private async Task Update() {
@@ -92,9 +87,7 @@ namespace GestionLibros.ViewModels
 
             await LoadBooks();
 
-            Name = string.Empty;
-            Author = string.Empty;
-            Description = string.Empty;
+            ClearForm();
         }
 
         [RelayCommand]
@@ -109,9 +102,18 @@ namespace GestionLibros.ViewModels
 
             await LoadBooks();
 
+            ClearForm();
+        }
+
+        [RelayCommand]
+        private void ClearForm()
+        {
             Name = string.Empty;
             Author = string.Empty;
             Description = string.Empty;
+            SelectedCategory = null;
+            SelectedStatus = ReadingStatus.PorLeer;
+            Rating = 0;
             SelectedBook = new Book();
         }
 

@@ -32,7 +32,7 @@ namespace GestionLibros.ViewModels
             category.Name = Name;
             await database.SaveCategoryAsync(category);
             Categories.Add(category);
-            Name = string.Empty;
+            ClearForm();
         }
 
         [RelayCommand]
@@ -49,7 +49,7 @@ namespace GestionLibros.ViewModels
 
             await LoadCategories();
 
-            Name = string.Empty;
+            ClearForm();
         }
 
         [RelayCommand]
@@ -64,6 +64,12 @@ namespace GestionLibros.ViewModels
 
             Categories.Remove(SelectedCategory);
 
+            ClearForm();
+        }
+
+        [RelayCommand]
+        private void ClearForm()
+        {
             Name = string.Empty;
             SelectedCategory = new Category();
         }

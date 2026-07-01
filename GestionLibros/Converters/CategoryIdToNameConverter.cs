@@ -11,10 +11,10 @@ namespace GestionLibros.Converters
         {
             if (value is int categoryId && CategoryNames.TryGetValue(categoryId, out var name))
             {
-                return $"Categoría: {name}";
+                return name;
             }
 
-            return "Categoría: Sin categoría";
+            return "Sin categoría";
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
