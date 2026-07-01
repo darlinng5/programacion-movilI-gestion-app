@@ -24,6 +24,10 @@ namespace GestionLibros
             builder.Services.AddSingleton<AppDatabase>();
             builder.Services.AddTransient<BookViewModel>();
             builder.Services.AddTransient<BookPage>();
+            builder.Services.AddTransient<CategoryViewModel>();
+            builder.Services.AddTransient<CategoryPage>();
+            builder.Services.AddTransient<StatsViewModel>();
+            builder.Services.AddTransient<StatsPage>();
             return builder.Build();
         }
     }

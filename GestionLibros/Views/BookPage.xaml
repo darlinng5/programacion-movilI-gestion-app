@@ -1,45 +1,71 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:GestionLibros.Converters"
              x:Class="GestionLibros.Views.BookPage"
              Title="Books">
 
-    <Grid Padding="20" RowDefinitions="Auto,*"  RowSpacing="16">
+    <ContentPage.Resources>
+        <converters:CategoryIdToNameConverter x:Key="CategoryIdToNameConverter" />
+    </ContentPage.Resources>
+
+    <Grid Padding="20" RowDefinitions="Auto,Auto,*"  RowSpacing="16">
         <VerticalStackLayout Grid.Row="0" Spacing="12">
             <Label Text="Nombre"/>
-            <Entry Text="{Binding Name}" 
+            <Entry Text="{Binding Name}"
                    Placeholder="Ingrese el nombre del libro" />
+            <Label Text="Autor"/>
+            <Entry Text="{Binding Author}"
+                   Placeholder="Ingrese el autor del libro" />
             <Label Text="Descripción"/>
-            <Editor Text="{Binding Description}" 
+            <Editor Text="{Binding Description}"
                    Placeholder="Ingrese la descripción del libro" />
+            <Label Text="Categoría"/>
+            <Picker ItemsSource="{Binding Categories}"
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedCategory}" />
+            <Label Text="Estado de lectura"/>
+            <Picker ItemsSource="{Binding Statuses}"
+                    SelectedItem="{Binding SelectedStatus}" />
+            <Label Text="{Binding Rating, StringFormat='Calificación: {0} / 5'}"/>
+            <Stepper Minimum="0" Maximum="5" Increment="1" Value="{Binding Rating}" />
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
-                <Button 
+                <Button
                     Grid.Column="0"
-                    Text="Save" 
+                    Text="Save"
                     Command="{Binding SaveCommand}"
                     />
-                <Button Grid.Column="1" 
+                <Button Grid.Column="1"
                         Text="Update"
                         Command="{Binding UpdateCommand}"
                         />
-                <Button Grid.Column="2" 
+                <Button Grid.Column="2"
                         Text="Delete"
                         Command="{Binding DeleteCommand}"
                         />
             </Grid>
         </VerticalStackLayout>
+
+        <SearchBar Grid.Row="1"
+                   Placeholder="Buscar por nombre o autor"
+                   Text="{Binding SearchText}" />
+
         <CollectionView SelectedItem="{Binding SelectedBook}" SelectionMode="Single"
-                        Grid.Row="1" ItemsSource="{Binding Books}">
+                        Grid.Row="2" ItemsSource="{Binding Books}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <VerticalStackLayout Padding="0,8">
-                        <Label Text="{Binding Name}"/>
+                        <Label Text="{Binding Name}" FontAttributes="Bold"/>
+                        <Label Text="{Binding Author, StringFormat='Autor: {0}'}"/>
                         <Label Text="{Binding Description}"/>
+                        <Label Text="{Binding CategoryId, Converter={StaticResource CategoryIdToNameConverter}}"/>
+                        <Label Text="{Binding Status, StringFormat='Estado: {0}'}"/>
+                        <Label Text="{Binding Rating, StringFormat='Calificación: {0} / 5'}"/>
                     </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
+
     </Grid>
 
 </ContentPage>

@@ -7,9 +7,19 @@
     Shell.FlyoutBehavior="Disabled"
     Title="GestionLibros">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:BookPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Libros"
+            ContentTemplate="{DataTemplate local:BookPage}"
+            Route="books" />
+        <ShellContent
+            Title="Categorías"
+            ContentTemplate="{DataTemplate local:CategoryPage}"
+            Route="categories" />
+        <ShellContent
+            Title="Estadísticas"
+            ContentTemplate="{DataTemplate local:StatsPage}"
+            Route="stats" />
+    </TabBar>
 
 </Shell>

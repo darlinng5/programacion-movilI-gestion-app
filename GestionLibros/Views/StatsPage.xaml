@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionLibros.Views.StatsPage"
+             Title="Estadísticas">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+            <Label Text="{Binding TotalBooks, StringFormat='Total de libros: {0}'}"
+                   FontSize="18" FontAttributes="Bold"/>
+            <Label Text="{Binding AverageRating, StringFormat='Calificación promedio: {0}'}"
+                   FontSize="18"/>
+
+            <Label Text="Por estado de lectura" FontAttributes="Bold" Margin="0,12,0,0"/>
+            <CollectionView ItemsSource="{Binding StatusCounts}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding StatusName}"/>
+                                    <Span Text=": "/>
+                                    <Span Text="{Binding Count}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="Por categoría" FontAttributes="Bold" Margin="0,12,0,0"/>
+            <CollectionView ItemsSource="{Binding CategoryCounts}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding CategoryName}"/>
+                                    <Span Text=": "/>
+                                    <Span Text="{Binding Count}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

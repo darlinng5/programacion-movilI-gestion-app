@@ -19,6 +19,7 @@ namespace GestionLibros.Data
             _database = new SQLiteAsyncConnection(dbPath);
 
             _database.CreateTableAsync<Book>().Wait();
+            _database.CreateTableAsync<Category>().Wait();
         }
 
         public Task<int> SaveBookAsync(Book book)
@@ -39,6 +40,26 @@ namespace GestionLibros.Data
         public Task<int> DeleteBookAsync(Book book)
         {
             return _database.DeleteAsync(book);
+        }
+
+        public Task<int> SaveCategoryAsync(Category category)
+        {
+            return _database.InsertAsync(category);
+        }
+
+        public Task<List<Category>> GetCategoriesAsync()
+        {
+            return _database.Table<Category>().ToListAsync();
+        }
+
+        public Task<int> UpdateCategoryAsync(Category category)
+        {
+            return _database.UpdateAsync(category);
+        }
+
+        public Task<int> DeleteCategoryAsync(Category category)
+        {
+            return _database.DeleteAsync(category);
         }
 
     }
