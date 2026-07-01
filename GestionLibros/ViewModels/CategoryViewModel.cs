@@ -25,27 +25,23 @@ namespace GestionLibros.ViewModels
         [ObservableProperty]
         private Category selectedCategory = new Category();
 
+        [ObservableProperty]
+        private bool isEditing;
+
         [RelayCommand]
         private async Task Save()
         {
-            Category category = new Category();
-            category.Name = Name;
-            await database.SaveCategoryAsync(category);
-            Categories.Add(category);
-            ClearForm();
-        }
-
-        [RelayCommand]
-        private async Task Update()
-        {
-            if (SelectedCategory == null)
+            if (SelectedCategory.Id == 0)
             {
-                return;
+                Category category = new Category();
+                category.Name = Name;
+                await database.SaveCategoryAsync(category);
             }
-
-            SelectedCategory.Name = Name;
-
-            await database.UpdateCategoryAsync(SelectedCategory);
+            else
+            {
+                SelectedCategory.Name = Name;
+                await database.UpdateCategoryAsync(SelectedCategory);
+            }
 
             await LoadCategories();
 
@@ -53,18 +49,11 @@ namespace GestionLibros.ViewModels
         }
 
         [RelayCommand]
-        private async Task Delete()
+        private async Task DeleteCategory(Category category)
         {
-            if (SelectedCategory == null)
-            {
-                return;
-            }
+            await database.DeleteCategoryAsync(category);
 
-            await database.DeleteCategoryAsync(SelectedCategory);
-
-            Categories.Remove(SelectedCategory);
-
-            ClearForm();
+            await LoadCategories();
         }
 
         [RelayCommand]
@@ -91,6 +80,7 @@ namespace GestionLibros.ViewModels
         {
             if (value == null) return;
             Name = value.Name;
+            IsEditing = value.Id != 0;
         }
     }
 }

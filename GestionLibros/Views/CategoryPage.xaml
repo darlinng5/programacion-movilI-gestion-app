@@ -10,28 +10,10 @@
             <Label Text="{Binding Categories.Count, StringFormat='{0} categoría(s) creadas'}"
                    Style="{StaticResource PageSubtitle}"/>
 
-            <Border Style="{StaticResource CardBorder}">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Nueva categoría / Editar" Style="{StaticResource SectionTitle}" Margin="0"/>
-                    <Label Text="Nombre" Style="{StaticResource FieldLabel}"/>
-                    <Entry Text="{Binding Name}"
-                           Placeholder="Ej. Ciencia ficción" />
-                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="8" Margin="0,8,0,0">
-                        <Button Grid.Column="0" Text="Guardar" Command="{Binding SaveCommand}" />
-                        <Button Grid.Column="1" Text="Actualizar" Style="{StaticResource OutlineButton}"
-                                Command="{Binding UpdateCommand}" />
-                        <Button Grid.Column="2" Text="Eliminar" Style="{StaticResource DangerButton}"
-                                Command="{Binding DeleteCommand}" />
-                        <Button Grid.Column="3" Text="Cancelar" Style="{StaticResource OutlineButton}"
-                                Command="{Binding ClearFormCommand}" />
-                    </Grid>
-                </VerticalStackLayout>
-            </Border>
-
-            <Label Text="Todas las categorías" Style="{StaticResource SectionTitle}"/>
+            <Button Text="＋ Nueva categoría" Clicked="OnNewCategoryClicked" />
         </VerticalStackLayout>
 
-        <CollectionView SelectedItem="{Binding SelectedCategory}" SelectionMode="Single"
+        <CollectionView SelectionMode="None"
                         Grid.Row="1" ItemsSource="{Binding Categories}"
                         Margin="20,0,20,20">
             <CollectionView.EmptyView>
@@ -43,8 +25,16 @@
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border Style="{StaticResource CardBorder}" Margin="0,0,0,12" Padding="16,12">
-                        <Label Text="{Binding Name}" Style="{StaticResource BookTitleLabel}"/>
+                    <Border Style="{StaticResource CardBorder}" Margin="0,0,0,12">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="{Binding Name}" Style="{StaticResource BookTitleLabel}"/>
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                <Button Grid.Column="0" Text="✏️ Editar" Style="{StaticResource OutlineButton}"
+                                        CommandParameter="{Binding .}" Clicked="OnEditClicked" />
+                                <Button Grid.Column="1" Text="🗑️ Eliminar" Style="{StaticResource DangerButton}"
+                                        CommandParameter="{Binding .}" Clicked="OnDeleteClicked" />
+                            </Grid>
+                        </VerticalStackLayout>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

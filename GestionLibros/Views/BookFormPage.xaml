@@ -12,16 +12,20 @@
     <ScrollView>
         <VerticalStackLayout Padding="20,16" Spacing="10">
             <Label Text="Nombre" Style="{StaticResource FieldLabel}"/>
-            <Entry Text="{Binding Name}" Placeholder="Ej. Cien años de soledad" />
+            <Entry Text="{Binding Name}" Placeholder="Ej. Cien años de soledad"
+                   IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" />
 
             <Label Text="Autor" Style="{StaticResource FieldLabel}"/>
-            <Entry Text="{Binding Author}" Placeholder="Ej. Gabriel García Márquez" />
+            <Entry Text="{Binding Author}" Placeholder="Ej. Gabriel García Márquez"
+                   IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" />
 
             <Label Text="Descripción" Style="{StaticResource FieldLabel}"/>
             <Editor Text="{Binding Description}"
                     Placeholder="Breve sinopsis del libro..."
                     AutoSize="TextChanges"
-                    HeightRequest="80" />
+                    HeightRequest="80"
+                    IsSpellCheckEnabled="False"
+                    IsTextPredictionEnabled="False" />
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                 <VerticalStackLayout Grid.Column="0" Spacing="6">

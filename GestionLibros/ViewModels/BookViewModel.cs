@@ -135,11 +135,7 @@ namespace GestionLibros.ViewModels
                     b.Author.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
                   .ToList();
 
-            Books.Clear();
-            foreach (var book in filtered)
-            {
-                Books.Add(book);
-            }
+            Books = new ObservableCollection<Book>(filtered);
         }
 
         partial void OnSelectedBookChanged(Book? value) {

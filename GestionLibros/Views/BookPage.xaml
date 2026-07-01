@@ -19,7 +19,8 @@
                    Style="{StaticResource PageSubtitle}"/>
 
             <SearchBar Placeholder="Buscar por nombre o autor"
-                       Text="{Binding SearchText}" />
+                       Text="{Binding SearchText}"
+                       IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" />
 
             <Button Text="＋ Nuevo libro" Clicked="OnNewBookClicked" />
         </VerticalStackLayout>
