@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestionLibros.Views.StatsPage"
+             Title="Estadísticas">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20,16,20,24" Spacing="16">
+            <Label Text="Estadísticas" Style="{StaticResource PageTitle}"/>
+            <Label Text="Un vistazo rápido a tu colección" Style="{StaticResource PageSubtitle}"/>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Border Grid.Column="0" Style="{StaticResource StatCardBorder}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="📚" FontSize="22"/>
+                        <Label Text="{Binding TotalBooks}" Style="{StaticResource StatNumberLabel}"/>
+                        <Label Text="Libros totales" Style="{StaticResource StatCaptionLabel}"/>
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource StatCardBorder}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="⭐" FontSize="22"/>
+                        <Label Text="{Binding AverageRating}" Style="{StaticResource StatNumberLabel}"/>
+                        <Label Text="Calificación promedio" Style="{StaticResource StatCaptionLabel}"/>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <Label Text="Por estado de lectura" Style="{StaticResource SectionTitle}"/>
+            <Border Style="{StaticResource CardBorder}">
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding StatusCounts}" Spacing="4">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,Auto" Padding="0,6">
+                                <Label Grid.Column="0" Text="{Binding StatusName}" Style="{StaticResource MutedLabel}"/>
+                                <Label Grid.Column="1" Text="{Binding Count}" FontAttributes="Bold"/>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="Por categoría" Style="{StaticResource SectionTitle}"/>
+            <Border Style="{StaticResource CardBorder}">
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding CategoryCounts}" Spacing="4">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,Auto" Padding="0,6">
+                                <Label Grid.Column="0" Text="{Binding CategoryName}" Style="{StaticResource MutedLabel}"/>
+                                <Label Grid.Column="1" Text="{Binding Count}" FontAttributes="Bold"/>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

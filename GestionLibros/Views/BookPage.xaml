@@ -1,45 +1,75 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:GestionLibros.Converters"
              x:Class="GestionLibros.Views.BookPage"
-             Title="Books">
+             Title="Libros">
 
-    <Grid Padding="20" RowDefinitions="Auto,*"  RowSpacing="16">
-        <VerticalStackLayout Grid.Row="0" Spacing="12">
-            <Label Text="Nombre"/>
-            <Entry Text="{Binding Name}" 
-                   Placeholder="Ingrese el nombre del libro" />
-            <Label Text="Descripción"/>
-            <Editor Text="{Binding Description}" 
-                   Placeholder="Ingrese la descripción del libro" />
-            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
-                <Button 
-                    Grid.Column="0"
-                    Text="Save" 
-                    Command="{Binding SaveCommand}"
-                    />
-                <Button Grid.Column="1" 
-                        Text="Update"
-                        Command="{Binding UpdateCommand}"
-                        />
-                <Button Grid.Column="2" 
-                        Text="Delete"
-                        Command="{Binding DeleteCommand}"
-                        />
-            </Grid>
+    <ContentPage.Resources>
+        <converters:CategoryIdToNameConverter x:Key="CategoryIdToNameConverter" />
+        <converters:RatingToStarsConverter x:Key="RatingToStarsConverter" />
+        <converters:ReadingStatusToLabelConverter x:Key="ReadingStatusToLabelConverter" />
+        <converters:ReadingStatusToColorConverter x:Key="ReadingStatusToColorConverter" />
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <VerticalStackLayout Grid.Row="0" Padding="20,16,20,8" Spacing="14">
+            <Label Text="Mi Biblioteca" Style="{StaticResource PageTitle}"/>
+            <Label Text="{Binding Books.Count, StringFormat='{0} libro(s) en tu colección'}"
+                   Style="{StaticResource PageSubtitle}"/>
+
+            <SearchBar Placeholder="Buscar por nombre o autor"
+                       Text="{Binding SearchText}"
+                       IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" />
+
+            <Button Text="＋ Nuevo libro" Clicked="OnNewBookClicked" />
         </VerticalStackLayout>
-        <CollectionView SelectedItem="{Binding SelectedBook}" SelectionMode="Single"
-                        Grid.Row="1" ItemsSource="{Binding Books}">
+
+        <CollectionView SelectionMode="None"
+                        Grid.Row="1" ItemsSource="{Binding Books}"
+                        Margin="20,0,20,20">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout>
+                    <Label Text="📭" FontSize="40" HorizontalTextAlignment="Center"/>
+                    <Label Text="No hay libros que coincidan. ¡Agrega el primero!"
+                           Style="{StaticResource EmptyStateLabel}" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <VerticalStackLayout Padding="0,8">
-                        <Label Text="{Binding Name}"/>
-                        <Label Text="{Binding Description}"/>
-                    </VerticalStackLayout>
+                    <Border Style="{StaticResource CardBorder}" Margin="0,0,0,12">
+                        <VerticalStackLayout Spacing="6">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0" Text="{Binding Name}" Style="{StaticResource BookTitleLabel}"/>
+                                <Label Grid.Column="1"
+                                       Text="{Binding Rating, Converter={StaticResource RatingToStarsConverter}}"
+                                       TextColor="{StaticResource Warning}" FontSize="14" VerticalOptions="Center"/>
+                            </Grid>
+                            <Label Text="{Binding Author, StringFormat='✍️ {0}'}" Style="{StaticResource MutedLabel}"/>
+                            <Label Text="{Binding Description}" Style="{StaticResource MutedLabel}"
+                                   MaxLines="2" LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="8" Margin="0,4,0,0">
+                                <Border Style="{StaticResource BadgeBorder}">
+                                    <Label Style="{StaticResource BadgeLabel}"
+                                           Text="{Binding CategoryId, Converter={StaticResource CategoryIdToNameConverter}}"/>
+                                </Border>
+                                <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" Padding="10,4"
+                                        BackgroundColor="{Binding Status, Converter={StaticResource ReadingStatusToColorConverter}}">
+                                    <Label FontSize="12" FontAttributes="Bold" TextColor="White"
+                                           Text="{Binding Status, Converter={StaticResource ReadingStatusToLabelConverter}}"/>
+                                </Border>
+                            </HorizontalStackLayout>
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,8,0,0">
+                                <Button Grid.Column="0" Text="✏️ Editar" Style="{StaticResource OutlineButton}"
+                                        CommandParameter="{Binding .}" Clicked="OnEditClicked" />
+                                <Button Grid.Column="1" Text="🗑️ Eliminar" Style="{StaticResource DangerButton}"
+                                        CommandParameter="{Binding .}" Clicked="OnDeleteClicked" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
     </Grid>
 
 </ContentPage>
