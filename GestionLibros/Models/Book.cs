@@ -24,5 +24,6 @@ namespace GestionLibros.Models
         public int CategoryId { get; set; }
         public ReadingStatus Status { get; set; } = ReadingStatus.PorLeer;
         public int Rating { get; set; }
+        public string? PhotoPath { get; set; }
     }
 }

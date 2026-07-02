@@ -31,6 +31,8 @@ namespace GestionLibros.ViewModels
         private int rating;
         [ObservableProperty]
         private string searchText = string.Empty;
+        [ObservableProperty]
+        private string? photoPath;
 
         //Ocupamos una lista para guardar a los libros que vayamos creando
         [ObservableProperty]
@@ -67,6 +69,7 @@ namespace GestionLibros.ViewModels
                 book.CategoryId = SelectedCategory?.Id ?? 0;
                 book.Status = SelectedStatus;
                 book.Rating = Rating;
+                book.PhotoPath = PhotoPath;
                 await database.SaveBookAsync(book);
             }
             else
@@ -77,6 +80,7 @@ namespace GestionLibros.ViewModels
                 SelectedBook.CategoryId = SelectedCategory?.Id ?? 0;
                 SelectedBook.Status = SelectedStatus;
                 SelectedBook.Rating = Rating;
+                SelectedBook.PhotoPath = PhotoPath;
                 await database.UpdateBookAsync(SelectedBook);
             }
 
@@ -102,6 +106,7 @@ namespace GestionLibros.ViewModels
             SelectedCategory = null;
             SelectedStatus = ReadingStatus.PorLeer;
             Rating = 0;
+            PhotoPath = null;
             SelectedBook = new Book();
         }
 
@@ -146,6 +151,7 @@ namespace GestionLibros.ViewModels
             SelectedCategory = Categories.FirstOrDefault(c => c.Id == value.CategoryId);
             SelectedStatus = value.Status;
             Rating = value.Rating;
+            PhotoPath = value.PhotoPath;
             IsEditing = value.Id != 0;
         }
     }

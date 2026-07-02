@@ -12,6 +12,9 @@ public partial class BookFormPage : ContentPage
         this.viewModel = viewModel;
         BindingContext = viewModel;
         Title = viewModel.IsEditing ? "Editar libro" : "Nuevo libro";
+
+        if (!string.IsNullOrEmpty(viewModel.PhotoPath))
+            PhotoPreview.Source = ImageSource.FromFile(viewModel.PhotoPath);
     }
 
     private async void OnSaveClicked(object sender, EventArgs e)
@@ -33,7 +36,14 @@ public partial class BookFormPage : ContentPage
         FileResult? photo = await MediaPicker.Default.CapturePhotoAsync();
         if (photo == null) return;
 
-        Stream stream = await photo.OpenReadAsync();
-        PhotoPreview.Source = ImageSource.FromStream(() => stream);
+        string destPath = Path.Combine(FileSystem.AppDataDirectory, $"{Guid.NewGuid()}.jpg");
+        using (Stream sourceStream = await photo.OpenReadAsync())
+        using (FileStream destStream = File.Create(destPath))
+        {
+            await sourceStream.CopyToAsync(destStream);
+        }
+
+        viewModel.PhotoPath = destPath;
+        PhotoPreview.Source = ImageSource.FromFile(destPath);
     }
 }
