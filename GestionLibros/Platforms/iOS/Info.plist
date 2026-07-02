@@ -4,6 +4,8 @@
 <dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Se requiere acceso a la cámara para tomar fotografías de los libros.</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

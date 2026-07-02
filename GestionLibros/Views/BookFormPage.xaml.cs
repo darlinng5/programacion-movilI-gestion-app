@@ -25,4 +25,15 @@ public partial class BookFormPage : ContentPage
         viewModel.ClearFormCommand.Execute(null);
         await Navigation.PopModalAsync();
     }
+
+    private async void OnAddPhotoClicked(object sender, EventArgs e)
+    {
+        if (!MediaPicker.Default.IsCaptureSupported) return;
+
+        FileResult? photo = await MediaPicker.Default.CapturePhotoAsync();
+        if (photo == null) return;
+
+        Stream stream = await photo.OpenReadAsync();
+        PhotoPreview.Source = ImageSource.FromStream(() => stream);
+    }
 }
