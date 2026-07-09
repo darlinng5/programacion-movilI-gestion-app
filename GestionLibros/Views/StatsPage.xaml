@@ -53,6 +53,9 @@
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
             </Border>
+
+            <Label Text="Sensor GPS" Style="{StaticResource SectionTitle}"/>
+            <Button Text="📍 Obtener ubicación GPS" Style="{StaticResource OutlineButton}" Clicked="OnGetLocationClicked" />
         </VerticalStackLayout>
     </ScrollView>
 
