@@ -45,5 +45,9 @@ public partial class BookFormPage : ContentPage
 
         viewModel.PhotoPath = destPath;
         PhotoPreview.Source = ImageSource.FromFile(destPath);
+
+        Location? location = await Geolocation.Default.GetLocationAsync();
+        viewModel.Latitude = location?.Latitude;
+        viewModel.Longitude = location?.Longitude;
     }
 }

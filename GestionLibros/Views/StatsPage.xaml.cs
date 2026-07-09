@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using GestionLibros.ViewModels;
 
 namespace GestionLibros.Views;
@@ -18,11 +17,5 @@ public partial class StatsPage : ContentPage
         base.OnAppearing();
 
         await viewModel.LoadStatsCommand.ExecuteAsync(null);
-    }
-
-    private async void OnGetLocationClicked(object sender, EventArgs e)
-    {
-        Location? location = await Geolocation.Default.GetLocationAsync();
-        Debug.WriteLine($"GPS -> Latitud: {location?.Latitude}, Longitud: {location?.Longitude}");
     }
 }

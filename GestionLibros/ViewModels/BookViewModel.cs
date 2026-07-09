@@ -33,6 +33,10 @@ namespace GestionLibros.ViewModels
         private string searchText = string.Empty;
         [ObservableProperty]
         private string? photoPath;
+        [ObservableProperty]
+        private double? latitude;
+        [ObservableProperty]
+        private double? longitude;
 
         //Ocupamos una lista para guardar a los libros que vayamos creando
         [ObservableProperty]
@@ -70,6 +74,8 @@ namespace GestionLibros.ViewModels
                 book.Status = SelectedStatus;
                 book.Rating = Rating;
                 book.PhotoPath = PhotoPath;
+                book.Latitude = Latitude;
+                book.Longitude = Longitude;
                 await database.SaveBookAsync(book);
             }
             else
@@ -81,6 +87,8 @@ namespace GestionLibros.ViewModels
                 SelectedBook.Status = SelectedStatus;
                 SelectedBook.Rating = Rating;
                 SelectedBook.PhotoPath = PhotoPath;
+                SelectedBook.Latitude = Latitude;
+                SelectedBook.Longitude = Longitude;
                 await database.UpdateBookAsync(SelectedBook);
             }
 
@@ -107,6 +115,8 @@ namespace GestionLibros.ViewModels
             SelectedStatus = ReadingStatus.PorLeer;
             Rating = 0;
             PhotoPath = null;
+            Latitude = null;
+            Longitude = null;
             SelectedBook = new Book();
         }
 
@@ -152,6 +162,8 @@ namespace GestionLibros.ViewModels
             SelectedStatus = value.Status;
             Rating = value.Rating;
             PhotoPath = value.PhotoPath;
+            Latitude = value.Latitude;
+            Longitude = value.Longitude;
             IsEditing = value.Id != 0;
         }
     }
