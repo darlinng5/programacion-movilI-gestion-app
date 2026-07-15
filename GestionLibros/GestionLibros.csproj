@@ -38,16 +38,6 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<!-- Keystore de depuración fijo: evita que cada compilación se firme con una clave distinta.
-	     Si la firma cambia entre despliegues, Android obliga a desinstalar antes de reinstalar,
-	     lo que borra los datos de la app (incluida la base de datos SQLite). -->
-	<PropertyGroup Condition="'$(Configuration)' == 'Debug' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
-		<AndroidSigningKeyStore>debug.keystore</AndroidSigningKeyStore>
-		<AndroidSigningKeyAlias>androiddebugkey</AndroidSigningKeyAlias>
-		<AndroidSigningKeyPass>android</AndroidSigningKeyPass>
-		<AndroidSigningStorePass>android</AndroidSigningStorePass>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
