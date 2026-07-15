@@ -6,7 +6,9 @@ using GestionLibros.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace GestionLibros.ViewModels
@@ -60,6 +62,41 @@ namespace GestionLibros.ViewModels
 
         [ObservableProperty]
         private bool isEditing;
+
+        [ObservableProperty]
+        private bool showMap;
+
+        [ObservableProperty]
+        private string mapHtml = string.Empty;
+
+        [RelayCommand]
+        private void ToggleMap()
+        {
+            ShowMap = !ShowMap;
+        }
+
+        private void BuildMapHtml()
+        {
+            var markers = new StringBuilder();
+            foreach (var book in allBooks.Where(b => b.Latitude.HasValue && b.Longitude.HasValue))
+            {
+                var lat = book.Latitude!.Value.ToString(CultureInfo.InvariantCulture);
+                var lng = book.Longitude!.Value.ToString(CultureInfo.InvariantCulture);
+                var name = book.Name.Replace("\\", "\\\\").Replace("'", "\\'");
+                markers.Append($"L.marker([{lat},{lng}]).addTo(map).bindPopup('{name}');");
+            }
+
+            MapHtml = $@"<!DOCTYPE html><html><head>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+<link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'/>
+<script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>
+<style>html,body,#map{{height:100%;margin:0}}</style>
+</head><body><div id='map'></div><script>
+var map = L.map('map').setView([20,0],2);
+L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png').addTo(map);
+{markers}
+</script></body></html>";
+        }
 
         [RelayCommand]
         private async Task Save()
@@ -134,6 +171,7 @@ namespace GestionLibros.ViewModels
             CategoryIdToNameConverter.CategoryNames = categoryList.ToDictionary(c => c.Id, c => c.Name);
 
             ApplyFilter();
+            BuildMapHtml();
         }
 
         partial void OnSearchTextChanged(string value)

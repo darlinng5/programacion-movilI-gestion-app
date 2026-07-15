@@ -22,7 +22,12 @@
                        Text="{Binding SearchText}"
                        IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" />
 
-            <Button Text="＋ Nuevo libro" Clicked="OnNewBookClicked" />
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                <Button Grid.Column="0" Text="＋ Nuevo libro" Clicked="OnNewBookClicked" />
+                <Button Grid.Column="1" Text="🗺️ Mapa" Command="{Binding ToggleMapCommand}" />
+            </Grid>
+
+            <WebView Source="{Binding MapHtml}" HeightRequest="300" IsVisible="{Binding ShowMap}" />
         </VerticalStackLayout>
 
         <CollectionView SelectionMode="None"
