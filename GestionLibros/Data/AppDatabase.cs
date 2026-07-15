@@ -26,7 +26,7 @@ namespace GestionLibros.Data
 
         private async Task SeedDataAsync()
         {
-            if (await _database.Table<Category>().CountAsync() == 0)
+            if (await _database.Table<Category>().CountAsync().ConfigureAwait(false) == 0)
             {
                 var categories = new List<Category>
                 {
@@ -37,13 +37,13 @@ namespace GestionLibros.Data
                 };
                 foreach (var category in categories)
                 {
-                    await _database.InsertAsync(category);
+                    await _database.InsertAsync(category).ConfigureAwait(false);
                 }
             }
 
-            if (await _database.Table<Book>().CountAsync() == 0)
+            if (await _database.Table<Book>().CountAsync().ConfigureAwait(false) == 0)
             {
-                var categoryIds = (await _database.Table<Category>().ToListAsync())
+                var categoryIds = (await _database.Table<Category>().ToListAsync().ConfigureAwait(false))
                     .Select(c => c.Id)
                     .ToList();
 
@@ -63,7 +63,7 @@ namespace GestionLibros.Data
 
                 foreach (var book in books)
                 {
-                    await _database.InsertAsync(book);
+                    await _database.InsertAsync(book).ConfigureAwait(false);
                 }
             }
         }
