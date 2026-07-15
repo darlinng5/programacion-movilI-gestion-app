@@ -27,7 +27,7 @@
                 <Button Grid.Column="1" Text="🗺️ Mapa" Command="{Binding ToggleMapCommand}" />
             </Grid>
 
-            <WebView Source="{Binding MapHtml}" HeightRequest="300" IsVisible="{Binding ShowMap}" />
+            <WebView Source="{Binding MapSource}" HeightRequest="300" IsVisible="{Binding ShowMap}" />
         </VerticalStackLayout>
 
         <CollectionView SelectionMode="None"

@@ -67,7 +67,7 @@ namespace GestionLibros.ViewModels
         private bool showMap;
 
         [ObservableProperty]
-        private string mapHtml = string.Empty;
+        private HtmlWebViewSource mapSource = new();
 
         [RelayCommand]
         private void ToggleMap()
@@ -86,7 +86,7 @@ namespace GestionLibros.ViewModels
                 markers.Append($"L.marker([{lat},{lng}]).addTo(map).bindPopup('{name}');");
             }
 
-            MapHtml = $@"<!DOCTYPE html><html><head>
+            var html = $@"<!DOCTYPE html><html><head>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
 <link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'/>
 <script src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'></script>
@@ -96,6 +96,8 @@ var map = L.map('map').setView([20,0],2);
 L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png').addTo(map);
 {markers}
 </script></body></html>";
+
+            MapSource = new HtmlWebViewSource { Html = html };
         }
 
         [RelayCommand]
