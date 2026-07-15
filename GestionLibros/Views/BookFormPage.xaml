@@ -27,7 +27,8 @@
                     IsSpellCheckEnabled="False"
                     IsTextPredictionEnabled="False" />
 
-            <Button Text="📷 Agregar fotografía" Style="{StaticResource OutlineButton}" />
+            <Button Text="📷 Agregar fotografía" Style="{StaticResource OutlineButton}" Clicked="OnAddPhotoClicked" />
+            <Image x:Name="PhotoPreview" HeightRequest="150" Aspect="AspectFit" />
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                 <VerticalStackLayout Grid.Column="0" Spacing="6">
